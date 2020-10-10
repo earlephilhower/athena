@@ -6,10 +6,16 @@ intersection() {
         machojheadeffector();
         translate([0,25,0]) holder();
         translate([10,48,7.8]) rotate([0,0,-90]) fancowl();
+        for (x=[30,-30]) for (y=[40, 50]) translate([x, y, 0]) fanpowershroud();
+        translate([50,-20,-3]) rotate([0,0,-30]) {
+            pneucap(thru=true);
+            translate([18,0,0]) pneucap(thru=false);
+            translate([18,-18,0]) pneunut();
+            translate([0,-18,0]) pneunut();
+        }
     }
     translate([-500,-500,-3]) cube([1000,1000,1000]);
 }
-
 
 
 margin = 0.1;
@@ -222,3 +228,84 @@ module fancowl() {
         translate([-15/2,1,12]) rotate([-120,0,0]) cube([15,20,50]);
     }
 }
+
+
+module fanpowershroud()
+{
+    module fanfemale()
+    {
+        w = 8.2+.2+.5;
+        l = 12.8+.2;
+        h = 5+.2+.75+.25;
+
+        translate([-w/2,0,-0.25]) cube([w, l, h]);
+        for (x = [-w/2, w/2 - 2]) translate([x, 0, h-.25]) cube([2, l, 2]);
+    };
+
+    module dupontmale()
+    {
+        w = 8+.75;
+        l = 15;
+        h = 3+.75;
+        translate([-w/2, 0, 0]) cube([w,l,h]);
+    }
+
+    rotate([90,0,0]) translate([0,10,0]) difference() {
+        translate([-12/2, -15+2, -1.5]) cube([12, 21, 8]);
+        translate([0,0,5-3]) rotate([0,0,180]) dupontmale();
+        fanfemale();
+
+        translate([-2.8,-12,6.0]) rotate([0,180,0]) rotate([0,0,90]) rotate([180,00,0]) linear_extrude(height = 1) text(text = "GND", font = "Liberation Sans", size = 2.5);
+        translate([-2.8+4,-12,6.0]) rotate([0,180,0]) rotate([0,0,90]) rotate([180,00,0]) linear_extrude(height = 1) text(text = "VCC", font = "Liberation Sans", size = 2.5);
+        translate([-2.8+4+4,-12,6.0]) rotate([0,180,0]) rotate([0,0,90]) rotate([180,00,0]) linear_extrude(height = 1) text(text = "TACH", font = "Liberation Sans", size = 2.5);
+    };
+};
+
+
+
+
+
+module pneucap(thru = false) {
+    ht = thru ? 12 : 10;
+    wd = thru ? 11.7 : 12;
+    difference() {
+        cylinder(d=12+3, h=ht, $fn=6);
+        translate([0,0,-.1]) cylinder(d=wd, h=ht+1, $fn=6);
+        translate([0,0,-.1]) cylinder(d1=wd+.8, d2=wd, h=2, $fn=6);
+    };
+
+    difference() {
+        union() {
+            translate([0, 0, ht+2]) {
+                difference() {
+                    metric_thread(diameter=12.5, pitch=1.1, length=11, taper=.33);
+                    translate([0,0,-.1]) cylinder(d=4.6,h=20, $fn=32);
+                };
+                for (z=[0.5:1.5:10]) {
+                    translate([0,0,z]) difference() {
+                        cylinder(d=7, h=.4);
+                        translate([0,0,-.05]) cylinder(d=4.2, h=.5, $fn=16);
+                    }
+                }
+            }
+        }
+        translate([0,0,12]) for (angle=[0:120:359]) {
+            rotate([0,0,angle]) translate([-.6,0,-.1]) cube([1.6,10,20]);
+        }
+    }
+
+    translate([0,0,ht]) difference() {
+        cylinder(d1=13, d2=12, h=2, $fn=32);
+        cylinder(d1=7, d2=5, h=2, $fn=32);
+    }
+}
+
+
+
+module pneunut() {
+    difference() {
+        cylinder(d=12+4, h=8, $fn=6);
+        metric_thread(diameter=11.5, pitch=1.1, length=9);
+    }
+}
+
