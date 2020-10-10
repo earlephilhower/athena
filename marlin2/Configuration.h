@@ -492,9 +492,9 @@
 
   // If you are using a pre-configured hotend then you can use one of the value sets by uncommenting it
 
-  #define DEFAULT_Kp 17.2
-  #define DEFAULT_Ki 1.35
-  #define DEFAULT_Kd 54.7
+  #define DEFAULT_Kp 28.3
+  #define DEFAULT_Ki 3.04
+  #define DEFAULT_Kd 65.9
 
   // Ultimaker
   //#define DEFAULT_Kp 22.2
@@ -667,19 +667,19 @@
   #define DELTA_DIAGONAL_ROD 251.70 // 251.6        // (mm)
 
   // Distance between bed and nozzle Z home position
-  #define DELTA_HEIGHT 243.14 //266.00             // (mm) Get this value from G33 auto calibrate
+  #define DELTA_HEIGHT 259.09             // (mm) Get this value from G33 auto calibrate
 
 //  #define DELTA_ENDSTOP_ADJ { -0.035, -0.006, 0.0 } // Get these values from G33 auto calibrate
-  #define DELTA_ENDSTOP_ADJ { -3.69, -1.647, 0.0 } // Get these values from G33 auto calibrate
+  #define DELTA_ENDSTOP_ADJ { -.504, -1.542, 0.0 } // Get these values from G33 auto calibrate
 
   // Horizontal distance bridged by diagonal push rods when effector is centered.
-  #define DELTA_RADIUS 126.89 // 125.38              // (mm) Get this value from G33 auto calibrate
+  #define DELTA_RADIUS 125.35              // (mm) Get this value from G33 auto calibrate
 
   // Trim adjustments for individual towers
   // tower angle corrections for X and Y tower / rotate XYZ so Z tower angle = 0
   // measured in degrees anticlockwise looking from above the printer
 //  #define DELTA_TOWER_ANGLE_TRIM { 0.218, 0.073, -0.291 } // Get these values from G33 auto calibrate
-  #define DELTA_TOWER_ANGLE_TRIM { 0.229, 0.864, -1.094 } // Get these values from G33 auto calibrate
+  #define DELTA_TOWER_ANGLE_TRIM { -0.184, 0.463, -0.279 } // Get these values from G33 auto calibrate
 
   // Delta radius and diagonal rod adjustments (mm)
   //#define DELTA_RADIUS_TRIM_TOWER { 0.0, 0.0, 0.0 }
@@ -1103,7 +1103,7 @@
  *     O-- FRONT --+
  */
 //#define NOZZLE_TO_PROBE_OFFSET { 0, 0, 0 }
-#define NOZZLE_TO_PROBE_OFFSET { 0, -40, -2 }
+#define NOZZLE_TO_PROBE_OFFSET { 27, 15, -2 }
 
 // Most probes should stay away from the edges of the bed, but
 // with NOZZLE_AS_PROBE this can be negative for a wider probing area.
