@@ -22,8 +22,10 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 // include the modules required for rendering
 include <athena.scad>
 
-render_part(part_to_render = 14);
-//render_plate(plate_to_render = 1);
+render_part(part_to_render = 1);
+//translate([0,-40,0]) render_part(part_to_render = 2);
+//translate([0,25,0]) rotate([0,0,180]) render_part(part_to_render = 5);
+//render_plate(plate_to_render = 8);
 
 // renders individual parts
 module render_part(part_to_render) {
