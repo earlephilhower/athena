@@ -1,10 +1,11 @@
 include <athena.scad>
 
 // Layout for printing.  Ensure everyone is at same Z base!
-intersection() {
+if (true) intersection() {
     union() {
         machojheadeffector();
         translate([0,25,0]) holder();
+/*
         translate([10,48,7.8]) rotate([0,0,-90]) fancowl();
         for (x=[30,-30]) for (y=[40, 50]) translate([x, y, 0]) fanpowershroud();
         translate([50,-20,-3]) rotate([0,0,-30]) {
@@ -13,7 +14,9 @@ intersection() {
             translate([18,-18,0]) pneunut();
             translate([0,-18,0]) pneunut();
         }
+*/
     }
+    // And get rid of anything below -3 (our base)
     translate([-500,-500,-3]) cube([1000,1000,1000]);
 }
 
@@ -95,10 +98,9 @@ module shroud() {
             screwhole(hole_d);
             translate([0,screwhead_ln/2 - shroud_d/2, 0]) screwhole_taper(screwhead_d+.4, screwhead_d+1, screwhead_ln+14, 6);
             }
-        translate([fan_w/2 - .1 * fan_w, 0, -.1 * fan_w]) fanscrew();
-        translate([-(fan_w/2 - .1 * fan_w), 0, -.1 * fan_w]) fanscrew();
-        translate([fan_w/2 - .1 * fan_w, 0, -.9 * fan_w]) fanscrew();
-        translate([-(fan_w/2 - .1 * fan_w), 0, -.9 * fan_w]) fanscrew();
+        for (x=[+1, -1])
+            for (y=[-.1, -.9])
+                translate([x*(fan_w/2 - .1 * fan_w), 0, y * fan_w]) fanscrew(ht=14);
         scale([1.2,1,1]) translate([0,-20,-22]) rotate([90,0,0]) cylinder(d1=fan_w * .55, d2 = fan_w *0.85, h=shroud_d+.1, center=true);
         }
 
@@ -155,15 +157,18 @@ module machojheadeffector() {
         // Wiring hole
         translate([0,-20,0]) cylinder(d=7, h=20, center=true);
         translate([0,-15,0]) cube([7,10,20], center=true);
+        // Get rid of arrow, interferes with hotend fan
+        translate([0, 26.3, 0]) cube([10,10,10], center=true);
     }
 
     // Anchors
+    anchor_w = 10;
     for (angle = [0, 120, 240]) {
         rotate([0,0,angle]) translate([0,17.5,5]) {
             difference() {
                 union() {
-                    cube([9,5.5,4], center=true);
-                    translate([0,0,1.5]) rotate([90,0,0]) cylinder(d=9, h=5.5, center=true);
+                    cube([anchor_w,5.5,4], center=true);
+                    translate([0,0,1.5]) rotate([90,0,0]) cylinder(d=anchor_w, h=5.5, center=true);
 
                 }
                 translate([0,0,1.5]) rotate([90,0,0]) cylinder(d=3.3, h=10, center=true);
@@ -176,17 +181,25 @@ module machojheadeffector() {
     difference() {
         union() {
             rotate([0,0,120]) translate([0,10+17.5,0]) cube([22,13,6.0], center=true);
-            rotate([0,0,120]) translate([0,32,30/2-6/2]) cylinder(d=23, h=30, center=true);
+            rotate([0,0,120]) translate([0,32.5,30/2-6/2]) cylinder(d=23, h=30, center=true);
             translate([-24,0,20]) rotate([0,0,50]) cube([24,5,10], center=true);
         }
-        rotate([0,0,120]) translate([0,32,30/2-6/2]) cylinder(d=18.6, h=31, center=true);
+        rotate([0,0,120]) translate([0,32.5,30/2-6/2]) cylinder(d=18.6, h=31, center=true);
         rotate([0,0,120]) translate([0,17.5,5]) translate([0,0,1.5]) rotate([90,0,0]) cylinder(d=7, h=60, center=true);
     }
 
     // Fan Grabber
     rotate([0,0,-120]) translate([0,10+17.5-2,+30/2-3]) difference() {
-        cube([18,25,30], center=true);
-        cube([15.2,26,31], center=true);
+        union() {
+            cube([18,25,30], center=true);
+            // Bolt hole reinforcement
+            rotate([0,90,0]) translate([-12.5,-9.5,0]) cylinder(d=7.0, h=20, center=true);
+        }
+        cube([15.5,26,33], center=true);
+        // Bolt hole
+        rotate([0,90,0]) translate([-12.5,-9.5,0]) cylinder(d=4, h=50, center=true);
+        // Fan intake
+        translate([0,10,12]) rotate([180,90,0]) cylinder(d=33, h=20);
     }
     translate([21,3,13]) rotate([0,0,60]) rotate([90,0,0]) scale([1,2,1]) difference() {
         cube([10,10,2], center=true);
@@ -212,16 +225,14 @@ module machojheadeffector() {
     }
 }
 
-
-module fancowl_tube(w=0) {
-    hull() {
-        cube([w*2+15,w*2+20,1], center=true);
-        translate([0,0,30]) cube([w*2+15/2,w*2+20/4,1], center=true);
-        for (a=[5,10,20,40,60,80]) rotate([a,0,0]) cube([w*2+15,w*2+20,1], center=true);
-    }
-}
-
 module fancowl() {
+    module fancowl_tube(w=0) {
+        hull() {
+            cube([w*2+15,w*2+20,1], center=true);
+            translate([0,0,30]) cube([w*2+15/2,w*2+20/4,1], center=true);
+            for (a=[5,10,20,40,60,80]) rotate([a,0,0]) cube([w*2+15,w*2+20,1], center=true);
+        }
+    }
     rotate([104,0,0]) difference() {
         fancowl_tube(1);
         fancowl_tube(0);
