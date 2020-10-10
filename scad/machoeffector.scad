@@ -6,6 +6,7 @@ intersection() {
         machojheadeffector();
         translate([0,25,0]) holder();
         translate([10,48,7.8]) rotate([0,0,-90]) fancowl();
+        for (x=[30,-30]) for (y=[40, 50]) translate([x, y, 0]) fanpowershroud();
     }
     translate([-500,-500,-3]) cube([1000,1000,1000]);
 }
@@ -222,3 +223,38 @@ module fancowl() {
         translate([-15/2,1,12]) rotate([-120,0,0]) cube([15,20,50]);
     }
 }
+
+
+
+
+module fanfemale()
+{
+    w = 8.2+.2+.5;
+    l = 12.8+.2;
+    h = 5+.2+.75+.25;
+    
+    translate([-w/2,0,-0.25]) cube([w, l, h]);
+    for (x = [-w/2, w/2 - 2]) translate([x, 0, h-.25]) cube([2, l, 2]);
+};
+  
+
+module dupontmale()
+{
+    w = 8+.75;
+    l = 15;
+    h = 3+.75;
+    translate([-w/2, 0, 0]) cube([w,l,h]);
+}
+
+module fanpowershroud()
+{
+    rotate([90,0,0]) translate([0,10,0]) difference() {
+        translate([-12/2, -15+2, -1.5]) cube([12, 21, 8]);
+        translate([0,0,5-3]) rotate([0,0,180]) dupontmale();
+        fanfemale();
+    
+        translate([-2.8,-12,6.0]) rotate([0,180,0]) rotate([0,0,90]) rotate([180,00,0]) linear_extrude(height = 1) text(text = "GND", font = "Liberation Sans", size = 2.5);
+        translate([-2.8+4,-12,6.0]) rotate([0,180,0]) rotate([0,0,90]) rotate([180,00,0]) linear_extrude(height = 1) text(text = "VCC", font = "Liberation Sans", size = 2.5);
+        translate([-2.8+4+4,-12,6.0]) rotate([0,180,0]) rotate([0,0,90]) rotate([180,00,0]) linear_extrude(height = 1) text(text = "TACH", font = "Liberation Sans", size = 2.5);
+    };
+};
