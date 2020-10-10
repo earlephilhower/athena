@@ -1,8 +1,15 @@
 include <athena.scad>
 
 // Layout for printing.  Ensure everyone is at same Z base!
-machojheadeffector();
-translate([0,25,6.4]) holder();
+intersection() {
+    union() {
+        machojheadeffector();
+        translate([0,25,0]) holder();
+        translate([10,48,7.8]) rotate([0,0,-90]) fancowl();
+    }
+    translate([-500,-500,-3]) cube([1000,1000,1000]);
+}
+
 
 
 margin = 0.1;
@@ -118,8 +125,7 @@ module roundcubecenter(x, y, z, r, ul=true, ur=true, ll=true, lr=true) {
 
 module holder() {
     spc=0.5;
-    difference() {
-//        translate([0,clamp_d/2, 0]) center_cube(fan_w*.80, clamp_d, mount_h);
+    translate([0,0,6.4]) difference() {
         translate([0,clamp_d/2, -mount_h/2]) roundcubecenter(fan_w*.800, clamp_d, mount_h, 2, false, false, true, true);
         translate([0,0,+0*top_h-jhead_sink]) jhead();
         translate([0,spc/2,0]) center_cube(fan_w, spc, mount_h);
@@ -197,5 +203,22 @@ module machojheadeffector() {
         }
         translate([0, 0, +t_effector/2 + fan_w/6]) cylinder(r1 = r2_opening, r2=fins_d/2, h = fan_w/3, center = true);
         translate([0, 0, 0]) cylinder(r = r2_opening, h = t_effector + 0.1, center = true);
+    }
+}
+
+
+module fancowl_tube(w=0) {
+    hull() {
+        cube([w*2+15,w*2+20,1], center=true);
+        translate([0,0,30]) cube([w*2+15/2,w*2+20/4,1], center=true);
+        for (a=[5,10,20,40,60,80]) rotate([a,0,0]) cube([w*2+15,w*2+20,1], center=true);
+    }
+}
+
+module fancowl() {
+    rotate([104,0,0]) difference() {
+        fancowl_tube(1);
+        fancowl_tube(0);
+        translate([-15/2,1,12]) rotate([-120,0,0]) cube([15,20,50]);
     }
 }
