@@ -20,7 +20,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 ************************************************************************************/
 
 // requires the common delta modules
-include <simple_delta_common.scad>
+include <../scad_libraries/simple_delta_common.scad>
 
 /************  layer_height is important - set it to the intended print layer height  ************/
 layer_height = 0.33; // layer height that the print will be produced with
@@ -216,7 +216,7 @@ module athena_end_idler(z_offset_guides = 8) {
 						height = h_apex,
 						cc_mount = cc_idler_mounts,
 						base_mount = false,
-						echo = echo_dims
+						_echo = echo_dims
 					);
 
 				// mount points for the top ring must be at least 8mm thick to accomodate 3/4" screws and 1/2" plywood
@@ -330,7 +330,7 @@ module athena_end_motor(z_offset_guides = 8) {
 							height = h_apex,
 							cc_mount = cc_motor_mounts,
 							base_mount = true,
-							echo = echo_dims
+							_echo = echo_dims
 						);
 
 					// wire guide
