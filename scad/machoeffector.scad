@@ -3,18 +3,20 @@ include <athena.scad>
 // Layout for printing.  Ensure everyone is at same Z base!
 if (true) intersection() {
     union() {
-        machojheadeffector();
-        translate([0,25,0]) holder();
-/*
-        translate([10,48,7.8]) rotate([0,0,-90]) fancowl();
-        for (x=[30,-30]) for (y=[40, 50]) translate([x, y, 0]) fanpowershroud();
-        translate([50,-20,-3]) rotate([0,0,-30]) {
-            pneucap(thru=true);
-            translate([18,0,0]) pneucap(thru=false);
-            translate([18,-18,0]) pneunut();
-            translate([0,-18,0]) pneunut();
+        if (true) translate([0,0,-3]) probepoint();
+        if (true) machojheadeffector();
+        if (true) translate([0,25,0]) holder();
+        if (true) translate([10,48,7.8]) rotate([0,0,-90]) fancowl();
+        if (false)
+            for (x=[30,-30]) for (y=[40, 50]) translate([x, y, 0]) fanpowershroud();
+        if (false) {
+            translate([50,-20,-3]) rotate([0,0,-30]) {
+                pneucap(thru=true);
+                translate([18,0,0]) pneucap(thru=false);
+                translate([18,-18,0]) pneunut();
+                translate([0,-18,0]) pneunut();
+            }
         }
-*/
     }
     // And get rid of anything below -3 (our base)
     translate([-500,-500,-3]) cube([1000,1000,1000]);
@@ -43,6 +45,17 @@ hole_d = 3.2+.1;
 
 jhead_sink = 1.5;
 
+module probepoint() {
+    difference() {
+        union() {
+            cylinder(d1=19, d2=18,h=5);
+            cylinder(d1=3, d2=.4, h=10, $fn=16);
+        }
+        cylinder(d1=18, d2=17,h=4);
+    }
+
+    for (a=[0,90]) rotate([0,0,a]) translate([0,0,3.8/2]) cube([10,1.2,3.8], center=true);
+}
 
 module jhead() {
     union() {
@@ -191,21 +204,21 @@ module machojheadeffector() {
     // Fan Grabber
     rotate([0,0,-120]) translate([0,10+17.5-2,+30/2-3]) difference() {
         union() {
-            cube([18,25,30], center=true);
+            cube([18,25,32], center=true);
             // Bolt hole reinforcement
-            rotate([0,90,0]) translate([-12.5,-9.5,0]) cylinder(d=7.0, h=20, center=true);
+            rotate([0,90,0]) translate([-12.5,-9.5,0]) cylinder(d=7.0, h=18, center=true);
         }
         cube([15.5,26,33], center=true);
         // Bolt hole
         rotate([0,90,0]) translate([-12.5,-9.5,0]) cylinder(d=4, h=50, center=true);
         // Fan intake
-        translate([0,10,12]) rotate([180,90,0]) cylinder(d=33, h=20);
+        translate([0,13,5]) rotate([180,90,0]) cylinder(d=33, h=20);
     }
-    translate([21,3,13]) rotate([0,0,60]) rotate([90,0,0]) scale([1,2,1]) difference() {
+    translate([21,3,12]) rotate([0,0,60]) rotate([90,0,0]) scale([1,1.9,1]) difference() {
         cube([10,10,2], center=true);
         rotate([0,0,45]) translate([10,0,0]) cube([20,20,3], center=true);
     }
-    translate([7,-20,13]) rotate([0,0,60]) rotate([270,0,0]) scale([1,2,1]) difference() {
+    translate([7,-20,12]) rotate([0,0,60]) rotate([270,0,0]) scale([1,1.9,1]) difference() {
         cube([10,10,2], center=true);
         rotate([0,0,180+45]) translate([10,0,0]) cube([20,20,3], center=true);
     }
@@ -231,12 +244,20 @@ module fancowl() {
             cube([w*2+15,w*2+20,1], center=true);
             translate([0,0,30]) cube([w*2+15/2,w*2+20/4,1], center=true);
             for (a=[5,10,20,40,60,80]) rotate([a,0,0]) cube([w*2+15,w*2+20,1], center=true);
+            translate([0,13,0]) rotate([90,0,0]) cube([w*2+15,w*2+20,1], center=true);
         }
     }
-    rotate([104,0,0]) difference() {
-        fancowl_tube(1);
-        fancowl_tube(0);
-        translate([-15/2,1,12]) rotate([-120,0,0]) cube([15,20,50]);
+    difference() {
+        union() {
+        rotate([104,0,0]) difference() {
+            fancowl_tube(1);
+            fancowl_tube(0);
+            translate([-15/2,1,12]) rotate([-120,0,0]) cube([15,20,50]);
+        }
+        for (x=[-8,8]) translate([x,1,60/2]) cube([1,20,60-1], center=true);
+        for (y=[-7/*, 9*/]) translate([0,y,60-2/2-2/2]) cube([16,4,3], center=true);
+        }
+        translate([-8,-9,35-1]) scale([1,5,9]) rotate([0,90,0]) cylinder(d=5,h=4,center=true);
     }
 }
 
