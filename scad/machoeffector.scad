@@ -3,11 +3,11 @@ include <athena.scad>
 // Layout for printing.  Ensure everyone is at same Z base!
 if (true) intersection() {
     union() {
-        if (true) translate([0,0,-3]) probepoint();
-        if (true) machojheadeffector();
-        if (true) translate([0,25,0]) holder();
-        if (true) translate([10,48,7.8]) rotate([0,0,-90]) fancowl();
-        if (false)
+        if (false) translate([0,0,-3]) probepoint();
+        if (false) machojheadeffector();
+        if (false) translate([0,25,0]) holder();
+        if (false) translate([10,48,7.8]) rotate([0,0,-90]) fancowl();
+        if (true)
             for (x=[30,-30]) for (y=[40, 50]) translate([x, y, 0]) fanpowershroud();
         if (false) {
             translate([50,-20,-3]) rotate([0,0,-30]) {
@@ -283,13 +283,13 @@ module fanpowershroud()
     }
 
     rotate([90,0,0]) translate([0,10,0]) difference() {
-        translate([-12/2, -15+2, -1.5]) cube([12, 21, 8]);
+        translate([-12/2, -15+2, -1.5]) union() { cube([12, 21, 8]); cube([12, 11, 9]); }
         translate([0,0,5-3]) rotate([0,0,180]) dupontmale();
         fanfemale();
 
-        translate([-2.8,-12,6.0]) rotate([0,180,0]) rotate([0,0,90]) rotate([180,00,0]) linear_extrude(height = 1) text(text = "GND", font = "Liberation Sans", size = 2.5);
-        translate([-2.8+4,-12,6.0]) rotate([0,180,0]) rotate([0,0,90]) rotate([180,00,0]) linear_extrude(height = 1) text(text = "VCC", font = "Liberation Sans", size = 2.5);
-        translate([-2.8+4+4,-12,6.0]) rotate([0,180,0]) rotate([0,0,90]) rotate([180,00,0]) linear_extrude(height = 1) text(text = "TACH", font = "Liberation Sans", size = 2.5);
+        translate([-2.8,-12,7]) rotate([0,180,0]) rotate([0,0,90]) rotate([180,00,0]) linear_extrude(height = 2) text(text = "GND", font = "Liberation Sans", size = 2.5);
+        translate([-2.8+4,-12,7]) rotate([0,180,0]) rotate([0,0,90]) rotate([180,00,0]) linear_extrude(height = 2) text(text = "VCC", font = "Liberation Sans", size = 2.5);
+        translate([-2.8+4+4,-12,7]) rotate([0,180,0]) rotate([0,0,90]) rotate([180,00,0]) linear_extrude(height = 2) text(text = "TACH", font = "Liberation Sans", size = 2.5);
     };
 };
 
