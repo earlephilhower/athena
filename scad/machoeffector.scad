@@ -3,12 +3,12 @@ include <athena.scad>
 // Layout for printing.  Ensure everyone is at same Z base!
 if (true) intersection() {
     union() {
-        if (false) translate([0,0,-3]) probepoint();
-        if (false) machojheadeffector();
-        if (false) translate([0,25,0]) holder();
-        if (false) translate([10,48,7.8]) rotate([0,0,-90]) fancowl();
+        if (true) translate([0,0,-3]) probepoint();
+        if (true) machojheadeffector();
+        if (true) translate([0,25,0]) holder();
+        if (true) translate([3,48,7.8]) rotate([0,0,-90]) fancowl();
         if (true)
-            for (x=[30,-30]) for (y=[40, 50]) translate([x, y, 0]) fanpowershroud();
+            for (x=[23,38]) for (y=[41, 52]) translate([x, y, 0]) fanpowershroud();
         if (false) {
             translate([50,-20,-3]) rotate([0,0,-30]) {
                 pneucap(thru=true);
